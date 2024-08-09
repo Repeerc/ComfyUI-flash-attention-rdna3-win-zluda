@@ -108,11 +108,11 @@ def rocm_fttn(
 
     ret = flash_attn_wmma.forward(q, k, v, Br, Bc, False, dim_head**-0.5)[0]
     #o = rearrange(o, "b h n d -> b n (h d)", h=heads) 
-    o = (
-        o.transpose(1, 2).reshape(b, -1, heads * dim_head)
+    ret = (
+        ret.transpose(1, 2).reshape(b, -1, heads * dim_head)
     )
     
-    return o.to(dtype)
+    return ret.to(dtype)
 
 
 def rocm_fttn_vae(q, k, v, *args, **kwargs):
